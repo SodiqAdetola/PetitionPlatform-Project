@@ -1,61 +1,100 @@
-import React, {useState} from 'react'
-import {app, auth} from '../firebase'
-import { createUserWithEmailAndPassword } from 'firebase/auth'
+import React, { useState } from 'react';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../firebase';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function Register() {
+  const [fullName, setFullName] = useState('');
+  const [DoB, setDoB] = useState('');
+  const [bioID, setBioID] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+  
+  const [error, setError] = useState('');
 
-  const [fullName, setFullName] = useState('')
-  const [DoB, setDoB] = useState('')
-  const [BioID, setBioID] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const registerHandler = async (e) => {
+    e.preventDefault();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    try {
-      await createUserWithEmailAndPassword(auth, email, password)
-      console.log('Registration Successful')
-    } catch(err) {
-      console.log(err)
+    if (!fullName || !DoB || !bioID || !email || !password) {
+      setError('Missing Field(s)!')
+      return;
     }
-  }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setError('Invalid email.');
+      return;
+    }
+
+    if (!password || password.length < 6) {
+      setError('Password must be at least 6 characters long.');
+      return;
+    }
+    
+    try {
+      const backendResponse = await axios.post('http://localhost:9000/petitioner', {
+        fullName,
+        DoB,
+        bioID,
+        email,
+        password
+      });
+
+   
+      if (backendResponse.data.message === 'Registration successful') {
+        const firebaseResponse = await createUserWithEmailAndPassword(auth, email, password);
+        console.log(firebaseResponse, 'Firebase Registration Successful');
+        navigate('/'); 
+      }
+
+    } catch (firebaseError) {
+      console.log(firebaseError.message)
+      // Step 3: Handle Firebase errors, including email already in use
+      if (firebaseError.code === 'auth/email-already-in-use') {
+        setError('This email is already associated with an existing account.');
+
+      } else if (firebaseError.code === 'auth/weak-password') {
+        setError('The password is too weak. It must be at least 6 characters long.');
+
+      } else {
+        setError('An unexpected error occurred with Firebase. Please try again.');
+      }
+    }
+  };
 
   return (
     <div className='registerContainer'>
-      <form className='registerForm' onSubmit={handleSubmit}>
+      <form className='registerForm' onSubmit={registerHandler}>
         <h2>Register</h2>
 
         <label htmlFor="Name">
-          Full Name: 
-          <input type="text" value={fullName} onChange={(e) => setFullName(e.target.value)}/>
+          Full Name: <input type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} />
         </label>
 
         <label htmlFor="DoB">
-          Date of Birth: 
-          <input type="date" value={DoB} onChange={(e) => setDoB(e.target.value)}/>
+          Date of Birth: <input type="date" value={DoB} onChange={(e) => setDoB(e.target.value)} />
         </label>
 
-        <label htmlFor="BioID">
-          Biometric ID: 
-          <input type="number" value={BioID} onChange={(e) => setBioID(e.target.value)}/>
+        <label htmlFor="bioID">
+          Biometric ID: <input type="text" value={bioID} onChange={(e) => setBioID(e.target.value)} />
         </label>
 
         <label htmlFor="Email">
-          Email: 
-          <input type="text" value={email} onChange={(e) => setEmail(e.target.value)}/>
+          Email: <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
         </label>
 
         <label htmlFor="Password">
-          Password: 
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
+          Password: <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
         </label>
 
-        <button>Register</button>
+        {error && <p className="errorMessage">{error}</p>} 
+
+        <button type="submit">Register</button>
         <p>Already have an account? <a href="/Login">Login here.</a></p>
       </form>
-
     </div>
-  )
+  );
 }
 
-export default Register
+export default Register;

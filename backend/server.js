@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
+const petitionerRoute = require('./routes/petitionerRoute')
 
 
 // Initialize app
@@ -19,11 +20,9 @@ mongoose.connect(process.env.MONGO_URI)
 
 
 // Start server
-const PORT = process.env.PORT || 9001;
+const PORT = process.env.PORT || 9000;
 
-app.get('/', (req, res) => {
-    res.send('Hello!');
-  });
+app.use('/', petitionerRoute);
 
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`)
