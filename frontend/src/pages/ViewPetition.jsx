@@ -1,68 +1,56 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Petition from '../components/Petition'
+import '../styles/ViewPetition.css'
+
 
 function ViewPetition() {
-  const [petitions, setPetitions] = useState([]);
-  const [expandedPetitionId, setExpandedPetitionId] = useState(null);
-  const [userSignedPetitions, setUserSignedPetitions] = useState([]);
-  const [signingMessage, setSigningMessage] = useState({});
+  const [petitions, setPetitions] = useState([]); // Stores all petitions
+  const [userSignedPetitions, setUserSignedPetitions] = useState([]); // Stores signed petition IDs
 
   // Fetch petitions and user-signed petitions on component load
   useEffect(() => {
     const fetchPetitions = async () => {
       try {
-        const response = await axios.get('http://localhost:9000/petitions');
-        setPetitions(response.data);
+        const petitionResponse = await axios.get('http://localhost:9000/petitions');
+        setPetitions(petitionResponse.data);
       } catch (err) {
         console.error('Error fetching petitions:', err);
       }
     };
 
-    const fetchUserData = async () => {
+    const fetchUserSignedPetitions = async () => {
       try {
         const email = localStorage.getItem('email');
         if (!email) {
-          // If no email is available, skip fetching user data
-          return;
+          return; // Skip if no email is found in localStorage
         }
 
-        // Get the user's signed petitions from the server
-        const response = await axios.get(`http://localhost:9000/petitioner?email=${email}`);
-        const serverSignedPetitions = response.data.signedPetitions || [];
-        
-        setUserSignedPetitions(serverSignedPetitions);
+        const userResponse = await axios.get(`http://localhost:9000/petitioner?email=${email}`);
+        const signedPetitions = userResponse.data.signedPetitions.map((p) => p._id); // Extract petition IDs
+        setUserSignedPetitions(signedPetitions);
       } catch (err) {
-        console.error('Error fetching petitioner data:', err);
+        console.error('Error fetching signed petitions:', err);
       }
     };
 
     fetchPetitions();
-    fetchUserData();
+    fetchUserSignedPetitions();
   }, []);
 
-  const toggleExpand = (petitionId) => {
-    setExpandedPetitionId((prevId) => (prevId === petitionId ? null : petitionId));
-  };
-
+  // Function to dynamically update signed petitions
   const handleSignPetition = async (petitionId) => {
     try {
       const email = localStorage.getItem('email');
       if (!email) {
-        setSigningMessage((prev) => ({
-          ...prev,
-          [petitionId]: 'You must be logged in to sign a petition.',
-        }));
+        alert('You must be logged in to sign a petition.');
         return;
       }
 
-      // Sign the petition on the server
       await axios.post(`http://localhost:9000/petition/${petitionId}`, { email });
 
-      // Update the local signed petitions list
-      const updatedSignedPetitions = [...userSignedPetitions, petitionId];
-      setUserSignedPetitions(updatedSignedPetitions);
-
-      // Dynamically update the signature count
+      // Update signed petitions and increment signatures dynamically
+      setUserSignedPetitions((prevSigned) => [...prevSigned, petitionId]);
       setPetitions((prevPetitions) =>
         prevPetitions.map((petition) =>
           petition._id === petitionId
@@ -70,55 +58,19 @@ function ViewPetition() {
             : petition
         )
       );
-
-      setSigningMessage((prev) => ({
-        ...prev,
-        [petitionId]: 'You have successfully signed this petition.',
-      }));
     } catch (err) {
       console.error('Error signing petition:', err);
-      setSigningMessage((prev) => ({
-        ...prev,
-        [petitionId]: err.response?.data?.message || 'Failed to sign petition.',
-      }));
+      alert('Failed to sign the petition.');
     }
   };
 
   return (
-    <div>
+    <div className='viewContainer'>
       <h1>View Petitions</h1>
-      <div className="petition-list">
-        {petitions.map((petition) => (
-          <div key={petition._id} className="petition-item">
-            <div className="petition-header" onClick={() => toggleExpand(petition._id)}>
-              <h2>Title: {petition.petitionTitle}</h2>
-            </div>
+      <div className="petitionList">
 
-            {expandedPetitionId === petition._id && (
-              <div className="petition-details">
-                <p>Content: {petition.petitionText}</p>
-                <p>By {petition.petitioner}</p>
-                {userSignedPetitions.includes(petition._id) ? (
-                  <div>
-                    <button className="signed-btn" disabled>
-                      Already Signed
-                    </button>
-                    <p style={{ color: 'green' }}>
-                      {signingMessage[petition._id] || 'You have already signed this petition.'}
-                    </p>
-                  </div>
-                ) : (
-                  <div>
-                    <button className="sign-btn" onClick={() => handleSignPetition(petition._id)}>
-                      Sign Petition
-                    </button>
-                    <p style={{ color: 'blue' }}>{signingMessage[petition._id]}</p>
-                  </div>
-                )}
-                <p>Signatures: {petition.signitures}</p>
-              </div>
-            )}
-          </div>
+        {petitions.map((petition) => (
+          <Petition key={petition._id} petition={petition} isSigned={userSignedPetitions.includes(petition._id)} onSign={handleSignPetition} className='petition'/>
         ))}
       </div>
     </div>

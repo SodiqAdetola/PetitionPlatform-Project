@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import '../styles/CreatePetition.css'
+
 
 function CreatePetition() {
   const [title, setTitle] = useState('');
@@ -48,11 +50,11 @@ function CreatePetition() {
         <h1>Create Petition</h1>
 
         <form onSubmit={handleSubmit}>
-          <label>
+          <label className='title'>
             Petition Title: <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} required />
           </label>
 
-          <label>
+          <label className='text'>
             Petition Text: <textarea value={text} onChange={(e) => setText(e.target.value)} required />
           </label>
 
