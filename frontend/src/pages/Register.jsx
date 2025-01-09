@@ -45,6 +45,7 @@ function Register() {
       if (backendResponse.data.message === 'Registration successful') {
         const firebaseResponse = await createUserWithEmailAndPassword(auth, email, password);
         console.log(firebaseResponse, 'Firebase Registration Successful');
+        localStorage.setItem('email', email)
         navigate('/'); 
       }
 

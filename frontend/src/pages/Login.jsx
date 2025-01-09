@@ -17,6 +17,7 @@ function Login() {
     try {
       const response = await signInWithEmailAndPassword(auth, email, password);
       console.log(response, 'Login Successful');
+      localStorage.setItem('email', email)
       navigate('/');
 
     } catch (err) {

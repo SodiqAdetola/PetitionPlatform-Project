@@ -59,3 +59,22 @@ exports.getAllPetitioners = async (req, res) => {
       res.status(500).json({ message: 'Server error' });
     }
   };
+
+  exports.getPetitionerByEmail = async (req, res) => {
+    const { email } = req.query;
+    console.log('Fetching petitioner with email:', email); // Log email query
+  
+    try {
+      const petitioner = await Petitioner.findOne({ email }).populate('signedPetitions');
+      if (!petitioner) {
+        console.log('No petitioner found for email:', email); // Log when no petitioner is found
+        return res.status(404).json({ message: 'Petitioner not found' });
+      }
+  
+      res.status(200).json(petitioner);
+    } catch (err) {
+      console.error('Error fetching petitioner:', err);
+      res.status(500).json({ message: 'Server error' });
+    }
+  };
+  

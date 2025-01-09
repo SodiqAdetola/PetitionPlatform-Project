@@ -4,6 +4,8 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Home from './pages/Home';
 import { auth } from './firebase';
+import ViewPetition from './pages/ViewPetition';
+import CreatePetition from './pages/CreatePetition';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -41,6 +43,8 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/" element={user ? <Home /> : <Navigate to="/login" />} />
+        <Route path="/viewPetitions" element={user ? <ViewPetition /> : <Navigate to="/login" />} />
+        <Route path="/createPetition" element={user ? <CreatePetition /> : <Navigate to="/login" />} />
       </Routes>
     </Router>
   );

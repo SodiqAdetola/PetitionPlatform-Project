@@ -5,7 +5,8 @@ const PetitionerSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   bioID: { type: String, required: true, unique: true },
   DoB: { type: Date, required: true },
-  signedPetitions: { type: Array, required: false }
+  signedPetitions: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Petition' }],
+  createdPetitions: { type: Array, required: false }
 });
 
 module.exports = mongoose.model('Petitioner', PetitionerSchema);

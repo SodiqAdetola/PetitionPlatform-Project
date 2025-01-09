@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const petitionerRoute = require('./routes/petitionerRoute')
+const petitionRoute = require('./routes/petitionRoute')
 
 
 // Initialize app
@@ -23,6 +24,7 @@ mongoose.connect(process.env.MONGO_URI)
 const PORT = process.env.PORT || 9000;
 
 app.use('/', petitionerRoute);
+app.use('/', petitionRoute)
 
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`)
