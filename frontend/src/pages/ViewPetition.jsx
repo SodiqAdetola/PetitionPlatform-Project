@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import NavBar from '../components/NavBar';
 
 function ViewPetition() {
   const [petitions, setPetitions] = useState([]);
@@ -22,15 +21,16 @@ function ViewPetition() {
     const fetchUserData = async () => {
       try {
         const email = localStorage.getItem('email');
+        if (!email) {
+          // If no email is available, skip fetching user data
+          return;
+        }
+
+        // Get the user's signed petitions from the server
         const response = await axios.get(`http://localhost:9000/petitioner?email=${email}`);
         const serverSignedPetitions = response.data.signedPetitions || [];
-
-        // Merge with locally stored signed petitions
-        const localSignedPetitions = JSON.parse(localStorage.getItem('userSignedPetitions')) || [];
-        const mergedSignedPetitions = Array.from(new Set([...serverSignedPetitions, ...localSignedPetitions]));
-
-        setUserSignedPetitions(mergedSignedPetitions);
-        localStorage.setItem('userSignedPetitions', JSON.stringify(mergedSignedPetitions));
+        
+        setUserSignedPetitions(serverSignedPetitions);
       } catch (err) {
         console.error('Error fetching petitioner data:', err);
       }
@@ -47,11 +47,20 @@ function ViewPetition() {
   const handleSignPetition = async (petitionId) => {
     try {
       const email = localStorage.getItem('email');
+      if (!email) {
+        setSigningMessage((prev) => ({
+          ...prev,
+          [petitionId]: 'You must be logged in to sign a petition.',
+        }));
+        return;
+      }
+
+      // Sign the petition on the server
       await axios.post(`http://localhost:9000/petition/${petitionId}`, { email });
 
+      // Update the local signed petitions list
       const updatedSignedPetitions = [...userSignedPetitions, petitionId];
       setUserSignedPetitions(updatedSignedPetitions);
-      localStorage.setItem('userSignedPetitions', JSON.stringify(updatedSignedPetitions));
 
       // Dynamically update the signature count
       setPetitions((prevPetitions) =>
@@ -77,24 +86,26 @@ function ViewPetition() {
 
   return (
     <div>
-      <NavBar />
       <h1>View Petitions</h1>
       <div className="petition-list">
         {petitions.map((petition) => (
           <div key={petition._id} className="petition-item">
             <div className="petition-header" onClick={() => toggleExpand(petition._id)}>
-              <h2>{petition.petitionTitle}</h2>
+              <h2>Title: {petition.petitionTitle}</h2>
             </div>
 
             {expandedPetitionId === petition._id && (
               <div className="petition-details">
-                <p>{petition.petitionText}</p>
+                <p>Content: {petition.petitionText}</p>
+                <p>By {petition.petitioner}</p>
                 {userSignedPetitions.includes(petition._id) ? (
                   <div>
                     <button className="signed-btn" disabled>
                       Already Signed
                     </button>
-                    <p style={{ color: 'green' }}>{signingMessage[petition._id] || 'You have already signed this petition.'}</p>
+                    <p style={{ color: 'green' }}>
+                      {signingMessage[petition._id] || 'You have already signed this petition.'}
+                    </p>
                   </div>
                 ) : (
                   <div>

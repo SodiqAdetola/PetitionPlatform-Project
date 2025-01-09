@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import NavBar from '../components/NavBar';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -32,9 +31,9 @@ function CreatePetition() {
       setText('');
 
       // Redirect to petitions page or dashboard
-      setTimeout(() => {
-        navigate('/viewPetitions');
-      }, 1000); 
+ 
+      navigate('/viewPetitions');
+     
 
     } catch (err) {
       console.error(err);
@@ -45,8 +44,6 @@ function CreatePetition() {
 
   return (
     <div>
-      <NavBar />
-
       <div className="formContainer">
         <h1>Create Petition</h1>
 

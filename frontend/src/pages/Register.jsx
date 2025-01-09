@@ -33,19 +33,22 @@ function Register() {
     }
     
     try {
+      const lowerCaseEmail = email.toLowerCase();
+
       const backendResponse = await axios.post('http://localhost:9000/petitioner', {
         fullName,
         DoB,
         bioID,
-        email,
+        email: lowerCaseEmail,
         password
       });
 
    
       if (backendResponse.data.message === 'Registration successful') {
-        const firebaseResponse = await createUserWithEmailAndPassword(auth, email, password);
+        const firebaseResponse = await createUserWithEmailAndPassword(auth, lowerCaseEmail, password);
         console.log(firebaseResponse, 'Firebase Registration Successful');
-        localStorage.setItem('email', email)
+        
+        localStorage.setItem('email', lowerCaseEmail)
         navigate('/'); 
       }
 

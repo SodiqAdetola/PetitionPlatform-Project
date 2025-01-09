@@ -17,6 +17,8 @@ const validBioIDs = [
 exports.createPetitioner = async (req, res) => {
   const { fullName, DoB, bioID, email, } = req.body;
 
+  console.log(email)
+
   try {
 
     if (!validBioIDs.includes(bioID)) {
@@ -77,4 +79,5 @@ exports.getAllPetitioners = async (req, res) => {
       res.status(500).json({ message: 'Server error' });
     }
   };
+  
   

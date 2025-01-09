@@ -3,9 +3,11 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Home from './pages/Home';
-import { auth } from './firebase';
 import ViewPetition from './pages/ViewPetition';
 import CreatePetition from './pages/CreatePetition';
+import NavBar from './components/NavBar';
+import './styles/App.css'
+import { auth } from './firebase';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -39,13 +41,16 @@ function App() {
 
   return (
     <Router>
-      <Routes>
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/" element={user ? <Home /> : <Navigate to="/login" />} />
-        <Route path="/viewPetitions" element={user ? <ViewPetition /> : <Navigate to="/login" />} />
-        <Route path="/createPetition" element={user ? <CreatePetition /> : <Navigate to="/login" />} />
-      </Routes>
+      {user && <NavBar />} {/* Render NavBar only when user is logged in */}
+      <div className={user ? 'contentContainer' : ''}>
+        <Routes>
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/" element={user ? <Home /> : <Navigate to="/login" />} />
+          <Route path="/viewPetitions" element={user ? <ViewPetition /> : <Navigate to="/login" />} />
+          <Route path="/createPetition" element={user ? <CreatePetition /> : <Navigate to="/login" />} />
+        </Routes>
+      </div>
     </Router>
   );
 }

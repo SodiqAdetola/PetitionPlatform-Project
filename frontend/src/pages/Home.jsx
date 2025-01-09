@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import NavBar from '../components/NavBar';
 
 function UserProfile() {
   const [profile, setProfile] = useState(null);
@@ -10,6 +9,7 @@ function UserProfile() {
     const fetchProfile = async () => {
       try {
         const email = localStorage.getItem('email');
+        console.log(email)
         const response = await axios.get(`http://localhost:9000/petitioner?email=${email}`);
         setProfile(response.data);
       } catch (err) {
@@ -31,7 +31,6 @@ function UserProfile() {
 
   return (
     <div>
-      <NavBar />
       <h1>User Profile</h1>
       <div className="profile-container">
         <p><strong>Full Name:</strong> {profile.fullName}</p>

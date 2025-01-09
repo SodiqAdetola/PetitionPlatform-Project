@@ -1,0 +1,79 @@
+.navbarContainer {
+    background-color: mediumpurple;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    padding-top: 30px;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 250px;
+    z-index: 999;
+    transition: 0.5s ease-in-out, transform 0.5s ease-in-out;
+  }
+  
+  .navbarContainer.collapsed {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  
+  .navbarContainer.expanded {
+    transform: translateX(0);
+    opacity: 1;
+    background-color: rgba(102, 51, 153, 0.793);
+  }
+  
+  .navLink {
+    color: white;
+    width: 100%;
+    text-decoration: none;
+    margin-top: 20px;
+    font-size: 18px;
+    text-align: center;
+    padding: 10px;
+    transition: background-color 0.3s ease;
+  }
+
+  .navbarContainer button {
+    width: fit-content;
+    margin-top: 50px;
+    background-color: rgba(0, 0, 0, 0);
+    border-radius: 10px;
+    border: 0;
+    padding: 30;
+  }
+  
+  .navLink:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* Hover shade */
+  }
+  
+  .navLink.active {
+    background-color: rgba(255, 255, 255, 0.3); /* Active link background */
+    font-weight: bold;
+  }
+  
+  .navbarToggle {
+    display: none; /* Hidden on large screens */
+    font-size: 30px;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    color: rgb(105, 37, 139);
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+  }
+  
+  /* Responsive styles for small screens */
+  @media (max-width: 768px) {
+    .navbarContainer {
+      width: 70%; /* Navbar spans 70% of the screen when expanded */
+    }
+  
+    .navbarToggle {
+      display: block; /* Show hamburger icon */
+    }
+  }
+  

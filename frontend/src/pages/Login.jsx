@@ -15,9 +15,11 @@ function Login() {
   const loginHandler = async (e) => {
     e.preventDefault();
     try {
-      const response = await signInWithEmailAndPassword(auth, email, password);
+      const lowerCaseEmail = email.toLowerCase();
+      const response = await signInWithEmailAndPassword(auth, lowerCaseEmail, password);
       console.log(response, 'Login Successful');
-      localStorage.setItem('email', email)
+      console.log(lowerCaseEmail)
+      localStorage.setItem('email', lowerCaseEmail)
       navigate('/');
 
     } catch (err) {
