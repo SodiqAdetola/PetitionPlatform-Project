@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Petition from '../components/Petition'; // Reusing the Petition component
 import '../styles/Home.css'
+import { FaUserCircle } from "react-icons/fa";
 
 
 function UserProfile() {
@@ -32,15 +33,20 @@ function UserProfile() {
   }
 
   return (
-    <div>
+    <div className='homeContainer'>
+      <div className='pageContainer'>
       <h1>User Profile</h1>
+      
       <div className="profileContainer">
-        <p>Full Name: {profile.fullName}</p>
+        <FaUserCircle className='userIcon' size={100}/>
+        <p className='name'>{profile.fullName}</p>
         <p>Email: {profile.email}</p>
         <p>Date of Birth: {new Date(profile.DoB).toLocaleDateString()}</p>
       </div>
+      <hr />
+      </div>
       <div className='signedContainer'>
-      <h2>Signed Petitions</h2>
+      <h2>Your Signed Petitions</h2>
       <div className='petitionContainer'>
         {profile.signedPetitions.length > 0 ? (
           profile.signedPetitions.map((petition) => (

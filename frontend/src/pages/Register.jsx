@@ -3,6 +3,8 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import '../styles/Register.css'
+
 
 function Register() {
   const [fullName, setFullName] = useState('');
@@ -52,17 +54,13 @@ function Register() {
         navigate('/'); 
       }
 
-    } catch (firebaseError) {
-      console.log(firebaseError.message)
-      // Step 3: Handle Firebase errors, including email already in use
-      if (firebaseError.code === 'auth/email-already-in-use') {
-        setError('This email is already associated with an existing account.');
-
-      } else if (firebaseError.code === 'auth/weak-password') {
-        setError('The password is too weak. It must be at least 6 characters long.');
-
-      } else {
-        setError('An unexpected error occurred with Firebase. Please try again.');
+    } catch (err) {
+      console.log(err.message)
+      if (err.response && err.response.data && err.response.data.message) {
+        setError(err.response.data.message);
+      } 
+       else {
+        setError('An unexpected error occurred. Please try again.');
       }
     }
   };
@@ -70,25 +68,26 @@ function Register() {
   return (
     <div className='registerContainer'>
       <form className='registerForm' onSubmit={registerHandler}>
+        <h1>Shangri-La Petition Platform</h1>
         <h2>Register</h2>
 
-        <label htmlFor="Name">
+        <label className='name' htmlFor="Name">
           Full Name: <input type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} />
         </label>
 
-        <label htmlFor="DoB">
+        <label className='dob' htmlFor="DoB">
           Date of Birth: <input type="date" value={DoB} onChange={(e) => setDoB(e.target.value)} />
         </label>
 
-        <label htmlFor="bioID">
+        <label className='bioID' htmlFor="bioID">
           Biometric ID: <input type="text" value={bioID} onChange={(e) => setBioID(e.target.value)} />
         </label>
 
-        <label htmlFor="Email">
+        <label className='email' htmlFor="Email">
           Email: <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
         </label>
 
-        <label htmlFor="Password">
+        <label className='password' htmlFor="Password">
           Password: <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
         </label>
 

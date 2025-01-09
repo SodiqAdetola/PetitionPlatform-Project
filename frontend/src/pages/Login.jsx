@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase';
 import { useNavigate } from 'react-router-dom';
+import '../styles/Login.css'
 
 
 function Login() {
@@ -32,13 +33,14 @@ function Login() {
   return (
     <div className='loginContainer'>
       <form className='loginForm' onSubmit={loginHandler}>
+        <h1>Shangri-La Petition Platform</h1>
         <h2>Login</h2>
 
-        <label htmlFor="Email">
+        <label className='email' htmlFor="Email">
           Email: <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
         </label>
 
-        <label htmlFor="Password">
+        <label className='password' htmlFor="Password">
           Password: <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
         </label>
 

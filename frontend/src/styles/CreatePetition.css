@@ -1,19 +1,14 @@
+.createContainer {
+  height: 100vh;
+}
 .formContainer {
     max-width: 600px;
     margin: 0 auto;
-    background-color: #f9f9f9;
+    background-color: #00000011;
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-top: 50px;
-  }
-
-  
-  h1 {
-    text-align: center;
-    color: rgb(82, 62, 121);
-    font-size: 2rem;
-    margin-bottom: 20px;
   }
   
   /* Label and input styles */
@@ -33,6 +28,7 @@
     box-sizing: border-box; /* Ensures padding doesn't overflow */
     margin-bottom: 20px;
     resize: vertical; /* Allows textarea to be resized vertically */
+    background-color: rgba(255, 255, 255, 0.734);
   }
   
   textarea {

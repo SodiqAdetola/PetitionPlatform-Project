@@ -1,0 +1,92 @@
+.registerContainer{
+    background-image: url('https://images.pexels.com/photos/114979/pexels-photo-114979.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
+    background-size: cover;
+  }
+
+.registerContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .registerContainer .registerForm {
+    background-color: rgba(255, 255, 255, 0.449);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+    max-height: 87%;
+  }
+
+  .registerContainer h1 {
+    margin: 0;
+  }
+  
+  .registerContainer h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: rgb(71, 55, 104);
+  }
+  
+  .registerContainer label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
+  
+  .registerContainer input[type="text"],
+  input[type="date"],
+  input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+  
+  .registerContainer button {
+    width: 100%;
+    padding: 10px;
+    background-color: mediumpurple;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    font-size: 16px;
+    transition: background-color 0.3s;
+  }
+  
+  .registerContainer button:hover {
+    background-color: rgb(118, 90, 172);
+  }
+  
+  .errorMessage {
+    color: red;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  
+  .registerContainer p {
+    text-align: center;
+  }
+  
+  .registerContainer a {
+    color: rgb(71, 55, 104);
+    text-decoration: none;
+  }
+  
+  .registerContainer a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Make form responsive */
+  @media (max-width: 500px) {
+    .registerContainer .registerForm {
+      padding: 20px;
+    }
+  }
+  

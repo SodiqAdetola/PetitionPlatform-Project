@@ -67,6 +67,7 @@ function ViewPetition() {
   return (
     <div className='viewContainer'>
       <h1>View Petitions</h1>
+      <hr />
       <div className="petitionList">
 
         {petitions.map((petition) => (

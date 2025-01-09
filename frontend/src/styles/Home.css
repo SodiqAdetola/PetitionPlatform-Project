@@ -1,16 +1,27 @@
-/* Profile Section */
+.homeContainer {
+  min-height: 100vh;
+}
+
+.pageContainer {
+  margin-bottom: 30px;
+}
+
 .profileContainer {
-    background-color: #f4f4f4;
+    background-color: #ffffff;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
+    margin-bottom: 50px;
     width: 60%;
     margin-left: auto;
     margin-right: auto; 
     text-align: center;
   }
-  
+  .profileContainer .name {
+    font-weight: 600;
+    font-size: 1.1rem;
+  }
+
   .profileContainer p {
     font-size: 1rem;
     color: #333;
@@ -19,23 +30,19 @@
   h1 {
     color: #333;
     text-align: center;
-    margin-bottom: 20px;
   }
   
   h2 {
     color: #333;
     text-align: center;
-    margin-bottom: 15px;
     font-size: 1.5rem;
   }
   
 
   .petitionContainer {
-    
-
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 30px;
   }
 
   

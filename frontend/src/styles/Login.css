@@ -1,0 +1,90 @@
+.loginContainer{
+  background-image: url('https://images.pexels.com/photos/114979/pexels-photo-114979.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
+  background-size: cover;
+}
+
+.loginContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .loginContainer h1 {
+    margin: 0;
+  }
+  
+  .loginContainer .loginForm {
+    background-color: rgba(255, 255, 255, 0.492);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 60%;
+    max-width: 500px;
+  }
+  
+  .loginContainer h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: rgb(71, 55, 104);
+  }
+  
+  .loginContainer label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
+  
+  .loginContainer input[type="text"],
+  input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+  
+  .loginContainer button {
+    width: 100%;
+    padding: 10px;
+    background-color: mediumpurple;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    font-size: 16px;
+    transition: background-color 0.3s;
+  }
+  
+  .loginContainer button:hover {
+    background-color: rgb(118, 90, 172);
+  }
+  
+  .loginContainer .errorMessage {
+    color: red;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  
+  .loginContainer p {
+    text-align: center;
+  }
+  
+  .loginContainer a {
+    color: rgb(71, 55, 104);
+    text-decoration: none;
+  }
+  
+  .loginContainer a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Make form responsive */
+  @media (max-width: 500px) {
+    .loginContainer .loginForm {
+      padding: 20px;
+    }
+  }
+  

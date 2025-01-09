@@ -1,5 +1,7 @@
 import React from 'react';
 import '../styles/Petition.css'
+import { FaUserCircle } from "react-icons/fa";
+
 
 function Petition({ petition, isSigned, onSign, hideSignButton = false }) {
   return (
@@ -9,13 +11,17 @@ function Petition({ petition, isSigned, onSign, hideSignButton = false }) {
       <h3>{petition.petitionTitle}</h3>
       <p className='content'>{petition.petitionText}</p>
       </div>
-      <div className='bottomItems'>
-      <p className='signitureCount'>Signatures: {petition.signitures}</p>
 
+      <div className='bottomItems'>
+      <p><FaUserCircle className='userIcon' size={20}/> {petition.petitioner}</p>
+      <div className='signiture'>
+        <p>Signitures: </p>
+        <p className='signitureCount'> {petition.signitures}</p>
+      </div>
       {!hideSignButton && (
         isSigned ? (
           <button className="signedButton" disabled>
-            Already Signed
+            Signed
           </button>
         ) : (
           <button className="signButton" onClick={() => onSign(petition._id)}>
