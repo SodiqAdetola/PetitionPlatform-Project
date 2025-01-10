@@ -28,7 +28,7 @@
   .navbarContainer.expanded {
     transform: translateX(0);
     opacity: 1;
-    background-color: rgba(88, 44, 132, 0.793);
+    background-color: rgba(88, 44, 132, 0.85);
   }
   
   .navLink {
@@ -70,7 +70,7 @@
     cursor: pointer;
     background: transparent;
     border: none;
-    color: rgb(105, 37, 139);
+    color: rgb(72, 25, 95);
     position: fixed;
     top: 20px;
     left: 20px;

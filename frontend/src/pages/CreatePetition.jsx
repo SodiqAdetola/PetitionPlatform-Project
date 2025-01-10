@@ -46,8 +46,9 @@ function CreatePetition() {
 
   return (
     <div className='createContainer'>
+      <h1>Create Petition</h1>
+      <hr />
       <div className="formContainer">
-        <h1>Create Petition</h1>
         <form onSubmit={handleSubmit}>
           <label className='title'>
             Petition Title: <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} required />

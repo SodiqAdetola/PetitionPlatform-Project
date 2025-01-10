@@ -1,6 +1,9 @@
 .homeContainer {
   min-height: 100vh;
 }
+.homeContainer p {
+  font-size: 0.85rem;
+}
 
 .pageContainer {
   margin-bottom: 30px;
@@ -23,7 +26,6 @@
   }
 
   .profileContainer p {
-    font-size: 1rem;
     color: #333;
   }
   

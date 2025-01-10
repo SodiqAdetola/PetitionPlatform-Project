@@ -12,6 +12,7 @@
     justify-content: space-between;
   }
 
+
   .userIcon {
   vertical-align: text-top;
   color: rgb(83, 63, 122);
@@ -49,7 +50,6 @@
   }
   
   .petitionItem h3 {
-    font-size: 1.5rem;
     color: #333;
     margin-bottom: 10px;
     text-align: center;

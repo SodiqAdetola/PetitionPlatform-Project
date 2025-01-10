@@ -9,20 +9,22 @@
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-top: 50px;
+
   }
+
   
   /* Label and input styles */
   label {
     display: block;
-    margin-bottom: 10px;
-    font-size: 1rem;
-    color: #333;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+    color: #000000;
   }
   
   input[type="text"], textarea {
     width: 100%;
     padding: 10px;
-    font-size: 1rem;
+    font-size: 0.9rem;
     border: 2px solid #ccc;
     border-radius: 5px;
     box-sizing: border-box; /* Ensures padding doesn't overflow */
@@ -54,7 +56,7 @@
   
   .success, .error {
     text-align: center;
-    font-size: 1rem;
+    font-size: 0.9rem;
     padding: 10px;
     margin-top: 20px;
     border-radius: 5px;
