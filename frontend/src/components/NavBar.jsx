@@ -59,7 +59,7 @@ function NavBar() {
         <Link to="/viewPetitions" className={getLinkClass('/viewPetitions')}>View Petitions</Link>
         <Link to="/createPetition" className={getLinkClass('/createPetition')}>Create Petition</Link>
         <button className="navLink" onClick={handleLogout}>
-          <IoIosLogOut size={40}/>
+          <IoIosLogOut size={30}/>
         </button>
       </div>
     </div>
