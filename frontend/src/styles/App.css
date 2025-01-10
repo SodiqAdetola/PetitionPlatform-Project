@@ -27,24 +27,6 @@
   
 
 
-
-  /* App.css */
-
-.loginBackground {
-  background-image: url('https://images.pexels.com/photos/114979/pexels-photo-114979.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
-  background-size: cover;
-  background-position: center;
-  height: 100vh;
-}
-
-.registerBackground {
-  background-image: url('https://images.pexels.com/photos/114979/pexels-photo-114979.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
-  background-size: cover;
-  background-position: center;
-  height: 100vh;
-}
-
-
 .homeBackground {
   background: radial-gradient(circle, #ffffff, rgb(255, 255, 255)); 
 
@@ -67,6 +49,39 @@ hr {
   margin: 0 -20px;
 }
 
+
+
+
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #ccc;
+  border-top: 5px solid #4a90e2; /* Blue color for top */
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loadingContainer p {
+  color: #555;
+  font-size: 0.9rem;
+}
   
 
   
