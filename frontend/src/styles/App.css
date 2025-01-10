@@ -50,13 +50,13 @@ hr {
 }
 
 
-
-
 .loadingContainer {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
+  height: 100vh;
 }
 
 .spinner {
@@ -80,7 +80,7 @@ hr {
 
 .loadingContainer p {
   color: #555;
-  font-size: 0.9rem;
+  font-size: 1rem;
 }
   
 

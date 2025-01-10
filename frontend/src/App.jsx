@@ -36,12 +36,10 @@ function App() {
   }, []);
 
   if (loading) {
-    return
-    <div class="loadingContainer">
-      <div class="spinner"></div>
-      <p>Loading, please wait...</p>
-    </div>;
-  
+    return   <div class="loadingContainer">
+    <div class="spinner"></div>
+    <p>Loading, please wait...</p>
+  </div>;
   }
 
   return (
