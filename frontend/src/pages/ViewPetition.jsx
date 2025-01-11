@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Petition from '../components/Petition'
-import '../styles/ViewPetition.css'
-
+import Petition from '../components/Petition';
+import '../styles/ViewPetition.css';
 
 function ViewPetition() {
   const [petitions, setPetitions] = useState([]); // Stores all petitions
   const [userSignedPetitions, setUserSignedPetitions] = useState([]); // Stores signed petition IDs
+  const [filter, setFilter] = useState('open'); // Stores the current filter state ('open' or 'closed')
 
   // Fetch petitions and user-signed petitions on component load
   useEffect(() => {
@@ -64,15 +64,40 @@ function ViewPetition() {
     }
   };
 
+  // Filter petitions based on the current filter state
+  const filteredPetitions = petitions.filter((petition) => 
+    petition.status.toLowerCase() === filter.toLowerCase()
+  );
+
   return (
     <div className='viewContainer'>
       <h1>View Petitions</h1>
-      <hr />
-      <div className="petitionList">
+      
+      
+      {/* Buttons for filtering petitions */}
+      <div className="filterButtons">
+        <button onClick={() => setFilter('open')} className={filter === 'open' ? 'active' : ''}>
+          Open Petitions
+        </button>
+        <button onClick={() => setFilter('closed')} className={filter === 'closed' ? 'active' : ''}>
+          Closed Petitions
+        </button>
+      </div>
 
-        {petitions.map((petition) => (
-          <Petition key={petition._id} petition={petition} isSigned={userSignedPetitions.includes(petition._id)} onSign={handleSignPetition} className='petition'/>
-        ))}
+      <div className="petitionList">
+        {filteredPetitions.length > 0 ? (
+          filteredPetitions.map((petition) => (
+            <Petition
+              key={petition._id}
+              petition={petition}
+              isSigned={userSignedPetitions.includes(petition._id)}
+              onSign={handleSignPetition}
+              className='petition'
+            />
+          ))
+        ) : (
+          <p>No petitions found.</p>
+        )}
       </div>
     </div>
   );

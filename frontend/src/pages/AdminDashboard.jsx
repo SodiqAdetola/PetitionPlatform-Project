@@ -7,6 +7,7 @@ const AdminDashboard = () => {
   const [petitions, setPetitions] = useState([]);
   const [threshold, setThreshold] = useState(0);
   const [filteredPetitions, setFilteredPetitions] = useState([]);
+  const [message, setMessage] = useState('');  // State for success/error message
 
   useEffect(() => {
     const fetchPetitionsAndThreshold = async () => {
@@ -30,15 +31,12 @@ const AdminDashboard = () => {
     fetchPetitionsAndThreshold();
   }, []);
 
-
-
   const filterPetitionsByThreshold = () => {
     // Filter petitions that have signatures >= threshold and are Open
     const petitionsAboveThreshold = petitions.filter(petition =>
       petition.signitures >= threshold && petition.status === 'Open'
     );
     setFilteredPetitions(petitionsAboveThreshold);
-    console.log(threshold)
   };
 
   const filterClosedPetitions = () => {
@@ -48,9 +46,9 @@ const AdminDashboard = () => {
   };
 
   const filterActivePetitions = () => {
-    // Filter petitions that are closed
-    const closedPetitions = petitions.filter(petition => petition.status === 'Open');
-    setFilteredPetitions(closedPetitions);
+    // Filter petitions that are open
+    const activePetitions = petitions.filter(petition => petition.status === 'Open');
+    setFilteredPetitions(activePetitions);
   };
 
   const updateThreshold = async () => {
@@ -60,10 +58,19 @@ const AdminDashboard = () => {
 
       // After updating the threshold, filter the petitions
       filterPetitionsByThreshold();
-      alert('Threshold updated successfully!');
+      
+      // Display success message
+      setMessage('Threshold updated successfully!');
+      
+      // Hide message after 2 seconds
+      setTimeout(() => setMessage(''), 2000);
+
     } catch (err) {
       console.error('Error updating threshold:', err);
-      alert('Failed to update threshold');
+      setMessage('Failed to update threshold');
+      
+      // Hide error message after 2 seconds
+      setTimeout(() => setMessage(''), 2000);
     }
   };
 
@@ -73,22 +80,32 @@ const AdminDashboard = () => {
         id: petitionId,
         response: responseText,
       });
-  
+
       // Update petitions to reflect the closed status and response
       setPetitions((prev) =>
         prev.map((p) =>
           p._id === petitionId ? { ...p, response: responseText, status: 'Closed' } : p
         )
       );
-  
+
       setFilteredPetitions((prev) =>
         prev.map((p) =>
           p._id === petitionId ? { ...p, response: responseText, status: 'Closed' } : p
         )
       );
+      
+      // Display success message
+      setMessage('Response submitted successfully!');
+      
+      // Hide message after 2 seconds
+      setTimeout(() => setMessage(''), 500);
+      
     } catch (error) {
       console.error('Error submitting response:', error);
-      alert('Failed to submit response');
+      setMessage('Failed to submit response');
+      
+      // Hide error message after 2 seconds
+      setTimeout(() => setMessage(''), 500);
     }
   };
 
@@ -101,6 +118,7 @@ const AdminDashboard = () => {
         </div>
       </div>
 
+    
       <h2>Set Signature Threshold</h2>
       <div className="thresholdSection">
         <input 
@@ -110,17 +128,19 @@ const AdminDashboard = () => {
           placeholder="Enter threshold"
         />
         <button onClick={updateThreshold}>Apply Threshold</button>
+        
       </div>
+      {message && (<p className="message">{message}</p>)}
+
 
       <div className="petitionsSection">
         <div className='bottomContainer'>
-        <h2>Petitions</h2>
-        <div className='listingContainer'>
-        <button onClick={() => setFilteredPetitions(petitions)}>View All Petitions</button>
-        <button onClick={filterActivePetitions}>View Open Petitions</button>
-        <button onClick={filterPetitionsByThreshold}>View Petitions Reached Threshold</button>
-        <button onClick={filterClosedPetitions}>View Closed Petitions</button>
-        </div>
+          <h2>Petitions</h2>
+          <div className='listingContainer'>
+            <button onClick={filterActivePetitions}>View Open Petitions</button>
+            <button onClick={filterPetitionsByThreshold}>View Petitions Reached Threshold</button>
+            <button onClick={filterClosedPetitions}>View Closed Petitions</button>
+          </div>
         </div>
         <div className="petitionList">
           {filteredPetitions.map(petition => (

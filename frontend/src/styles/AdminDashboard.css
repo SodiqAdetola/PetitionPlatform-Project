@@ -3,11 +3,17 @@
 }
 
 .adminDashboard .profileSection {
-    margin: 50px;
+    margin: 60px;
+}
+
+
+.adminDashboard h1 {
+    margin: 0;
+    padding: 0;
 }
 
 .adminDashboard h2 {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     font-weight: 600;
 }
 
@@ -20,15 +26,15 @@
 }
 
 .thresholdSection input {
-    max-width: 35px;
-    font-size: 1.2rem;
+    max-width: 40px;
+    font-size: 1rem;
     text-align: right;
     
 }
 
 .thresholdSection button {
-    background-color: mediumpurple;
-    border: 1px solid black;
+    background-color: 555;
+    border: 1px solid 555;
 }
 
 
@@ -51,4 +57,12 @@
     text-decoration: underline;
     cursor: pointer;
 }
+
+.message {
+    margin-bottom: 50px;
+    font-size: 0.9rem;
+    color: green;
+}
+
+
 
