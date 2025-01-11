@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Home from './pages/Home';
@@ -8,27 +8,40 @@ import CreatePetition from './pages/CreatePetition';
 import NavBar from './components/NavBar';
 import './styles/App.css';
 import { auth } from './firebase';
-import AdminDashboard from './pages/AdminDashboard'
+import AdminDashboard from './pages/AdminDashboard';
+import axios from 'axios';
 
 function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [roleLoading, setRoleLoading] = useState(false);
+  const [userRole, setUserRole] = useState(null);
 
   useEffect(() => {
-    const savedToken = localStorage.getItem('idToken');
-    if (savedToken) {
-      setUser({ idToken: savedToken });
-    }
-
-    const unsubscribe = auth.onAuthStateChanged((user) => {
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user) {
-        user.getIdToken().then((idToken) => {
-          localStorage.setItem('idToken', idToken);
-          setUser({ idToken });
-        });
+        try {
+          setRoleLoading(true); // Start role-loading state
+          const idToken = await user.getIdToken();
+          const email = user.email || localStorage.getItem('email'); // Try to get email from user object first
+
+          if (email) {
+            const adminResponse = await axios.get(`http://localhost:9000/petitioner?email=${email}`);
+            const role = adminResponse.data.role;
+            setUserRole(role);
+            setUser({ idToken, email });
+          }
+        } catch (error) {
+          console.error('Error fetching user role:', error);
+          setUser(null);
+          setUserRole(null);
+        } finally {
+          setRoleLoading(false); // End role-loading state
+        }
       } else {
-        localStorage.removeItem('idToken');
         setUser(null);
+        setUserRole(null);
+        setRoleLoading(false); // Ensure role-loading state is cleared
       }
       setLoading(false);
     });
@@ -36,54 +49,83 @@ function App() {
     return unsubscribe;
   }, []);
 
-  if (loading) {
-    return   <div class="loadingContainer">
-    <div class="spinner"></div>
-    <p>Loading, please wait...</p>
-  </div>;
+  if (loading || roleLoading) {
+    return (
+      <div className="loadingContainer">
+        <div className="spinner"></div>
+        <p>Loading, please wait...</p>
+      </div>
+    );
   }
 
+  // If no user, render only Login or Register
+  if (!user) {
+    return (
+      <Router>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="*" element={<Navigate to="/login" replace />} />
+        </Routes>
+      </Router>
+    );
+  }
+
+  // Render NavBar only if the user is authenticated and not on Login/Register pages
   return (
     <Router>
-      <DynamicBackground user={user}>
-        {user && <NavBar />}
-        <div className={user ? 'contentContainer' : ''}>
-          <Routes>
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/" element={user ? <Home /> : <Navigate to="/login" />} />
-            <Route path="/viewPetitions" element={user ? <ViewPetition /> : <Navigate to="/login" />} />
-            <Route path="/createPetition" element={user ? <CreatePetition /> : <Navigate to="/login" />} />
-            <Route path="/admin" element={user ? <AdminDashboard /> : <Navigate to="/login" />} />
+      {user && userRole && <NavBar />}
+      <div className={user ? 'contentContainer' : ''}>
+        <Routes>
+          {/* Admin Routes */}
+          <Route
+            path="/admin"
+            element={
+              userRole === 'admin' ? (
+                <AdminDashboard />
+              ) : (
+                <Navigate to="/" replace />
+              )
+            }
+          />
 
-          </Routes>
-        </div>
-      </DynamicBackground>
+          {/* User Routes */}
+          <Route
+            path="/"
+            element={
+              userRole === 'admin' ? (
+                <Navigate to="/admin" replace />
+              ) : (
+                <Home />
+              )
+            }
+          />
+          <Route
+            path="/viewPetitions"
+            element={
+              userRole === 'admin' ? (
+                <Navigate to="/admin" replace />
+              ) : (
+                <ViewPetition />
+              )
+            }
+          />
+          <Route
+            path="/createPetition"
+            element={
+              userRole === 'admin' ? (
+                <Navigate to="/admin" replace />
+              ) : (
+                <CreatePetition />
+              )
+            }
+          />
+          {/* Default to login if no matching route */}
+          <Route path="*" element={<Navigate to={userRole === 'admin' ? '/admin' : '/'} replace />} />
+        </Routes>
+      </div>
     </Router>
   );
-}
-
-function DynamicBackground({ user, children }) {
-  const location = useLocation(); // Now inside the Router context
-
-  const getBackgroundClass = () => {
-    switch (location.pathname) {
-      case '/login':
-        return 'loginBackground';
-      case '/register':
-        return 'registerBackground';
-      case '/':
-        return 'homeBackground';
-      case '/viewPetitions':
-        return 'viewPetitionsBackground';
-      case '/createPetition':
-        return 'createPetitionBackground';
-      default:
-        return '';
-    }
-  };
-
-  return <div className={getBackgroundClass()}>{children}</div>;
 }
 
 export default App;
