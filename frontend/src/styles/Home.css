@@ -10,7 +10,6 @@
 }
 
 .profileContainer {
-    background-color: #ffffff;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -19,7 +18,15 @@
     margin-left: auto;
     margin-right: auto; 
     text-align: center;
+    background: 
+    radial-gradient(circle, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), /* Semi-transparent overlay */
+    url('/purple.png');
+    background-size:100%;
+    background-position: top 35px right 0px;
+    background-repeat: no-repeat;
   }
+
+
   .profileContainer .name {
     font-weight: 600;
     font-size: 1.1rem;

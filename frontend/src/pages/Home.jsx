@@ -29,7 +29,10 @@ function UserProfile() {
   }
 
   if (!profile) {
-    return <p>Loading profile...</p>;
+    return   <div class="loadingContainer">
+    <div class="spinner"></div>
+    <p>Loading, please wait...</p>
+  </div>;
   }
 
   return (

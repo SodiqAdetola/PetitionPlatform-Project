@@ -6,7 +6,7 @@ const PetitionSchema = new mongoose.Schema({
   petitionText: { type: String, required: true, unique: true },
   petitioner: { type: String, required: true },
   signitures: { type: Number, required: false, default: 0 },
-  response: { type: String, required: false }
+  response: { type: String, required: false },
 
 });
 

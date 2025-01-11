@@ -30,16 +30,19 @@
 .homeBackground {
   background: radial-gradient(circle, #ffffff, rgb(255, 255, 255)); 
 
-
 }
 
 .viewPetitionsBackground  {
-  background-image: url('/purple.png');
+  background: 
+  radial-gradient(circle, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), /* Semi-transparent overlay */
+  url('/purple.png');
   background-size:cover;
 }
 
 .createPetitionBackground {
-  background-image: url('/purple3.png');
+  background: 
+  radial-gradient(circle, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), /* Semi-transparent overlay */
+  url('/purple3.png');
   background-size:cover;
 }
 

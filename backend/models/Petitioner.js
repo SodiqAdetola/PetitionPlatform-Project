@@ -6,7 +6,13 @@ const PetitionerSchema = new mongoose.Schema({
   bioID: { type: String, required: true, unique: true },
   DoB: { type: Date, required: true },
   signedPetitions: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Petition' }],
-  createdPetitions: { type: Array, required: false }
+  createdPetitions: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Petition' }],
+  role: {type: String, default: 'user'},
 });
 
+
 module.exports = mongoose.model('Petitioner', PetitionerSchema);
+
+
+
+
