@@ -139,6 +139,9 @@ const AdminDashboard = () => {
         <div className='bottomContainer'>
           <h2>Petitions</h2>
           <div className='listingContainer'>
+            {
+            <button onClick={() => setFilteredPetitions(petitions)}>View All Petitions</button>
+             }
             <button onClick={filterActivePetitions}>View Open Petitions</button>
             <button onClick={filterPetitionsByThreshold}>View Petitions Reached Threshold</button>
             <button onClick={filterClosedPetitions}>View Closed Petitions</button>
@@ -155,7 +158,7 @@ const AdminDashboard = () => {
               />
             </div>
           ))) : (
-            <p className='notFoundMessage'>No petitions found.</p>
+            <p className='notFound'>No petitions found.</p>
           )
           }
         </div>

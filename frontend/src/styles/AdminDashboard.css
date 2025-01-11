@@ -48,7 +48,9 @@
 
 .listingContainer {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
+    gap: 15px;
 }
 
 .listingContainer button {
@@ -56,6 +58,10 @@
     background-color: rgba(255, 255, 255, 0);
     text-decoration: underline;
     cursor: pointer;
+}
+
+.listingContainer button:hover {
+    color: rgb(87, 62, 137);
 }
 
 .message {
