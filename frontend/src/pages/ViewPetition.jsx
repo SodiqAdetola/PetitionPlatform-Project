@@ -96,7 +96,7 @@ function ViewPetition() {
             />
           ))
         ) : (
-          <p>No petitions found.</p>
+          <p className='notFoundMessage'>No petitions found.</p>
         )}
       </div>
     </div>

@@ -69,5 +69,11 @@
     color: rgb(73, 52, 115);
 }
 
+.notFoundMessage {
+    width: 200%;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
 
 

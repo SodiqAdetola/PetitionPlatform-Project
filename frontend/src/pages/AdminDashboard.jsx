@@ -145,7 +145,8 @@ const AdminDashboard = () => {
           </div>
         </div>
         <div className="petitionList">
-          {filteredPetitions.map(petition => (
+        {filteredPetitions.length > 0 ? (
+          filteredPetitions.map(petition => (
             <div key={petition._id} className="petitionCard">
               <Petition 
                 petition={petition}
@@ -153,7 +154,10 @@ const AdminDashboard = () => {
                 onRespond={handleRespond}
               />
             </div>
-          ))}
+          ))) : (
+            <p className='notFoundMessage'>No petitions found.</p>
+          )
+          }
         </div>
       </div>
     </div>
