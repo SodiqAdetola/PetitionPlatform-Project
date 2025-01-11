@@ -105,3 +105,35 @@
    
   }
   
+
+  .closedPetition{
+    border-color: #555;
+  }
+
+  .closedStatus {
+    background-color: #555;
+  }
+
+
+  .responseButton {
+    margin: 10px;
+  }
+
+  .userResponse {
+    width: 100%;
+    margin-top: 10px;
+    background-color: white;
+    border: 1px black solid;
+    border-radius: 5px;
+  }
+
+
+ .userResponse p {
+  margin: 5px;
+ }
+
+ .userResponse .headerText {
+  font-weight: 500;
+  text-align: center;
+  margin: 5px;
+ }

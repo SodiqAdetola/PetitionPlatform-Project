@@ -4,7 +4,7 @@ import { FaUserCircle } from "react-icons/fa";
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 
-function Petition({ petition, isSigned, onSign, hideSignButton = false, onRespond }) {
+function Petition({ petition, thresholdValue, isSigned, onSign, hideSignButton = false, onRespond }) {
   const location = useLocation();
   const isAdminDashboard = location.pathname === '/admin';
   const [isResponseVisible, setIsResponseVisible] = useState(false);
@@ -16,20 +16,28 @@ function Petition({ petition, isSigned, onSign, hideSignButton = false, onRespon
   }, [petition.status]);
 
   const toggleResponseForm = () => {
+    // Toggle the response form visibility
     setIsResponseVisible(!isResponseVisible);
+    if (petition.response && !isResponseVisible) {
+      // If there's an existing response, pre-fill the form
+      setResponseText(petition.response);
+    } else {
+      // If there's no response or it's canceled, reset the form
+      setResponseText('');
+    }
   };
 
   const handleResponseSubmit = () => {
     if (responseText.trim() !== '') {
-      onRespond(petition._id, responseText); // Call parent to handle response update
-      setIsResponseVisible(false); // Close the form
+      onRespond(petition._id, responseText);
+      setIsResponseVisible(false); // Close the form after submission
     }
   };
 
   return (
-    <div className="petitionItem">
+    <div className={`petitionItem ${isClosed ? 'closedPetition' : ''}`}>
       <div className="topItems">
-        <div className="status">Status: {petition.status}</div>
+        <div className={`status ${isClosed ? 'closedStatus' : ''}`}>Status: {petition.status}</div>
         <h3>{petition.petitionTitle}</h3>
         <p className="content">{petition.petitionText}</p>
       </div>
@@ -53,14 +61,15 @@ function Petition({ petition, isSigned, onSign, hideSignButton = false, onRespon
           </>
         )}
 
-        {isAdminDashboard && (
+        {isAdminDashboard && (petition.signitures >= thresholdValue) && (
           <>
             <div className="responseSection">
               <button className="responseButton" onClick={toggleResponseForm}>
-                {isResponseVisible ? 'Cancel Response' : 'Respond to Petition'}
+                {petition.response && !isResponseVisible ? 'View Response' : 
+                isResponseVisible ? 'Cancel' : 'Respond to Petition'}
               </button>
 
-              {isResponseVisible && !isClosed && (
+              {isResponseVisible && (
                 <div className="responseForm">
                   <textarea
                     value={responseText}
@@ -68,34 +77,27 @@ function Petition({ petition, isSigned, onSign, hideSignButton = false, onRespon
                     placeholder="Enter your response"
                   />
                   <button className="submitResponseButton" onClick={handleResponseSubmit}>
-                    Submit Response
+                    {petition.response ? 'Resubmit Response' : 'Submit Response'}
                   </button>
                 </div>
               )}
             </div>
-
-            {isClosed && petition.response && (
-              <div className="adminResponse">
-                <h4>Admin Response:</h4>
-                <p>{petition.response}</p>
-                {isAdminDashboard && !isResponseVisible && (
-                  <button className="editResponseButton" onClick={toggleResponseForm}>Edit Response</button>
-                )}
-              </div>
-            )}
           </>
         )}
 
-        {isClosed && petition.response && !isAdminDashboard && (
+      </div>
+
+      {isClosed && petition.response && !isAdminDashboard && (
           <div className="userResponse">
-            <h4>Admin Response:</h4>
+            <p className='headerText'>Admin Response:</p>
             <p>{petition.response}</p>
           </div>
         )}
-      </div>
+
     </div>
+
+    
   );
 }
 
 export default Petition;
-

@@ -1,0 +1,54 @@
+.adminDashboard {
+    text-align: center;
+}
+
+.adminDashboard .profileSection {
+    margin: 50px;
+}
+
+.adminDashboard h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.thresholdSection {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 50px;
+}
+
+.thresholdSection input {
+    max-width: 35px;
+    font-size: 1.2rem;
+    text-align: right;
+    
+}
+
+.thresholdSection button {
+    background-color: mediumpurple;
+    border: 1px solid black;
+}
+
+
+.bottomContainer {
+    padding-top: 1px;
+    padding-bottom: 25px;
+    background-color: rgba(147, 112, 216, 0.133);
+    margin-left: -20px;
+    margin-right: -20px;
+}
+
+.listingContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.listingContainer button {
+    border: 0;
+    background-color: rgba(255, 255, 255, 0);
+    text-decoration: underline;
+    cursor: pointer;
+}
+

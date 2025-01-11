@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Petition from '../components/Petition'; // Assuming Petition component is in components folder
+import Petition from '../components/Petition';
+import '../styles/AdminDashboard.css'
 
 const AdminDashboard = () => {
   const [petitions, setPetitions] = useState([]);
@@ -17,6 +18,10 @@ const AdminDashboard = () => {
         // Fetch the current threshold from the server
         const thresholdResponse = await axios.get('http://localhost:9000/threshold');
         setThreshold(thresholdResponse.data.threshold);
+
+        // Initially display all petitions
+        setFilteredPetitions(petitionsResponse.data);
+
       } catch (err) {
         console.error('Error fetching data:', err);
       }
@@ -25,12 +30,28 @@ const AdminDashboard = () => {
     fetchPetitionsAndThreshold();
   }, []);
 
-  
+
+
   const filterPetitionsByThreshold = () => {
-    const petitionsAboveThreshold = petitions.filter(petition => petition.signitures >= threshold);
+    // Filter petitions that have signatures >= threshold and are Open
+    const petitionsAboveThreshold = petitions.filter(petition =>
+      petition.signitures >= threshold && petition.status === 'Open'
+    );
     setFilteredPetitions(petitionsAboveThreshold);
+    console.log(threshold)
   };
 
+  const filterClosedPetitions = () => {
+    // Filter petitions that are closed
+    const closedPetitions = petitions.filter(petition => petition.status === 'Closed');
+    setFilteredPetitions(closedPetitions);
+  };
+
+  const filterActivePetitions = () => {
+    // Filter petitions that are closed
+    const closedPetitions = petitions.filter(petition => petition.status === 'Open');
+    setFilteredPetitions(closedPetitions);
+  };
 
   const updateThreshold = async () => {
     try {
@@ -53,6 +74,7 @@ const AdminDashboard = () => {
         response: responseText,
       });
   
+      // Update petitions to reflect the closed status and response
       setPetitions((prev) =>
         prev.map((p) =>
           p._id === petitionId ? { ...p, response: responseText, status: 'Closed' } : p
@@ -69,8 +91,6 @@ const AdminDashboard = () => {
       alert('Failed to submit response');
     }
   };
-  
-
 
   return (
     <div className="adminDashboard">
@@ -81,8 +101,8 @@ const AdminDashboard = () => {
         </div>
       </div>
 
+      <h2>Set Signature Threshold</h2>
       <div className="thresholdSection">
-        <h2>Set Signature Threshold</h2>
         <input 
           type="number" 
           value={threshold} 
@@ -93,15 +113,21 @@ const AdminDashboard = () => {
       </div>
 
       <div className="petitionsSection">
+        <div className='bottomContainer'>
         <h2>Petitions</h2>
+        <div className='listingContainer'>
         <button onClick={() => setFilteredPetitions(petitions)}>View All Petitions</button>
-        <button onClick={filterPetitionsByThreshold}>Filter Petitions by Threshold</button>
-
+        <button onClick={filterActivePetitions}>View Open Petitions</button>
+        <button onClick={filterPetitionsByThreshold}>View Petitions Reached Threshold</button>
+        <button onClick={filterClosedPetitions}>View Closed Petitions</button>
+        </div>
+        </div>
         <div className="petitionList">
           {filteredPetitions.map(petition => (
             <div key={petition._id} className="petitionCard">
               <Petition 
                 petition={petition}
+                thresholdValue={threshold}
                 onRespond={handleRespond}
               />
             </div>
