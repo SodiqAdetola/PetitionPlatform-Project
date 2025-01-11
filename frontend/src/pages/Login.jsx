@@ -3,6 +3,7 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Login.css'
+import axios from 'axios';
 
 
 function Login() {
@@ -21,7 +22,13 @@ function Login() {
       console.log(response, 'Login Successful');
       console.log(lowerCaseEmail)
       localStorage.setItem('email', lowerCaseEmail)
+
+      const adminResponse = await axios.get(`http://localhost:9000/petitioner?email=${lowerCaseEmail}`);
+      if (adminResponse.data.role === 'admin') {
+        navigate('/admin')
+      } else {
       navigate('/');
+      }
 
     } catch (err) {
       console.log(err);

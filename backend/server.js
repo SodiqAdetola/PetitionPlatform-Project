@@ -2,10 +2,14 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
+
+
 const petitionerRoute = require('./routes/petitionerRoute')
 const petitionRoute = require('./routes/petitionRoute')
-const Petitioner = require('./models/Petitioner');
-const { Admin } = require('mongodb');
+const adminRoute = require('./routes/adminRoute')
+
+const Petitioner = require('./models/Petitioner')
+const Threshold = require('./models/Threshold')
 
 
 
@@ -47,10 +51,12 @@ mongoose.connect(process.env.MONGO_URI)
   } catch (err) {
     console.error('Error:', err);
   }
+
   
 }).catch(err => {
   console.error('Database connection error:', err);
 });
+
   
  
 
@@ -58,8 +64,13 @@ mongoose.connect(process.env.MONGO_URI)
 const PORT = process.env.PORT || 9000;
 
 app.use('/', petitionerRoute);
-app.use('/', petitionRoute)
+app.use('/', petitionRoute);
+app.use('/', adminRoute);
+
+
 
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`)
     });
+
+

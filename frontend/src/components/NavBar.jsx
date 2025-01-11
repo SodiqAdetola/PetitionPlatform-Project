@@ -42,6 +42,8 @@ function NavBar() {
     return location.pathname === path ? 'navLink active' : 'navLink';
   };
 
+  const isAdminDashboard = location.pathname === '/admin';
+
   return (
     <div>
       {/* Hamburger icon for small screens */}
@@ -52,12 +54,16 @@ function NavBar() {
         </button>
       )}
 
-      {/* Navbar container */}
       <div className={`navbarContainer ${isExpanded ? 'expanded' : 'collapsed'}`}>
         <p className='title'>SLPP</p>
-      <Link to="/" className={getLinkClass('/')}>Home</Link>
-        <Link to="/viewPetitions" className={getLinkClass('/viewPetitions')}>View Petitions</Link>
-        <Link to="/createPetition" className={getLinkClass('/createPetition')}>Create Petition</Link>
+        
+        {!isAdminDashboard && (
+          <>
+            <Link to="/" className={getLinkClass('/')}>Home</Link>
+            <Link to="/viewPetitions" className={getLinkClass('/viewPetitions')}>View Petitions</Link>
+            <Link to="/createPetition" className={getLinkClass('/createPetition')}>Create Petition</Link>
+          </>
+        )}
         <button className="navLink" onClick={handleLogout}>
           <IoIosLogOut size={30}/>
         </button>

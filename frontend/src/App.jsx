@@ -8,6 +8,7 @@ import CreatePetition from './pages/CreatePetition';
 import NavBar from './components/NavBar';
 import './styles/App.css';
 import { auth } from './firebase';
+import AdminDashboard from './pages/AdminDashboard'
 
 function App() {
   const [user, setUser] = useState(null);
@@ -53,6 +54,8 @@ function App() {
             <Route path="/" element={user ? <Home /> : <Navigate to="/login" />} />
             <Route path="/viewPetitions" element={user ? <ViewPetition /> : <Navigate to="/login" />} />
             <Route path="/createPetition" element={user ? <CreatePetition /> : <Navigate to="/login" />} />
+            <Route path="/admin" element={user ? <AdminDashboard /> : <Navigate to="/login" />} />
+
           </Routes>
         </div>
       </DynamicBackground>
