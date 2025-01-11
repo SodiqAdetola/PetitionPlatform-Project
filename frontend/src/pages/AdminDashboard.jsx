@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Petition from '../components/Petition';
 import '../styles/AdminDashboard.css'
+import { RiAdminFill } from "react-icons/ri";
 
 const AdminDashboard = () => {
   const [petitions, setPetitions] = useState([]);
@@ -111,6 +112,7 @@ const AdminDashboard = () => {
 
   return (
     <div className="adminDashboard">
+      <RiAdminFill size={100} className='adminLogo'/>
       <div className="profileSection">
         <h1>Admin Dashboard</h1>
         <div className="adminProfile">
