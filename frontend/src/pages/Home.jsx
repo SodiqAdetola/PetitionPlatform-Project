@@ -36,7 +36,7 @@ function UserProfile() {
   }
 
   return (
-    <div className='homeContainer'>
+    <div className='homeContainer homeBackground'>
       <div className='pageContainer'>
       <h1>User Profile</h1>
       

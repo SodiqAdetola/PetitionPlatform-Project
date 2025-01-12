@@ -45,7 +45,7 @@ function CreatePetition() {
   };
 
   return (
-    <div className='createContainer'>
+    <div className='createContainer createPetitionBackground'>
       <h1>Create Petition</h1>
       <hr />
       <div className="formContainer">

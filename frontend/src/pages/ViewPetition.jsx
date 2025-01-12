@@ -70,7 +70,7 @@ function ViewPetition() {
   );
 
   return (
-    <div className='viewContainer'>
+    <div className='viewContainer viewPetitionsBackground'>
       <h1>View Petitions</h1>
       
       

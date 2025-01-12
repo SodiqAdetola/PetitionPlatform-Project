@@ -21,9 +21,9 @@ function App() {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user) {
         try {
-          setRoleLoading(true); // Start role-loading state
+          setRoleLoading(true);
           const idToken = await user.getIdToken();
-          const email = user.email || localStorage.getItem('email'); // Try to get email from user object first
+          const email = user.email || localStorage.getItem('email'); 
 
           if (email) {
             const adminResponse = await axios.get(`http://localhost:9000/petitioner?email=${email}`);
@@ -36,12 +36,12 @@ function App() {
           setUser(null);
           setUserRole(null);
         } finally {
-          setRoleLoading(false); // End role-loading state
+          setRoleLoading(false);
         }
       } else {
         setUser(null);
         setUserRole(null);
-        setRoleLoading(false); // Ensure role-loading state is cleared
+        setRoleLoading(false); 
       }
       setLoading(false);
     });
@@ -120,12 +120,35 @@ function App() {
               )
             }
           />
-          {/* Default to login if no matching route */}
+          {/* Route to login if no valid route */}
           <Route path="*" element={<Navigate to={userRole === 'admin' ? '/admin' : '/'} replace />} />
         </Routes>
       </div>
     </Router>
   );
+}
+
+function DynamicBackground({ user, children }) {
+  const location = useLocation(); // Now inside the Router context
+
+  const getBackgroundClass = () => {
+    switch (location.pathname) {
+      case '/login':
+        return 'loginBackground';
+      case '/register':
+        return 'registerBackground';
+      case '/':
+        return 'homeBackground'; // Apply home background here
+      case '/viewPetitions':
+        return 'viewPetitionsBackground';
+      case '/createPetition':
+        return 'createPetitionBackground';
+      default:
+        return '';
+    }
+  };
+
+  return <div className={getBackgroundClass()}>{children}</div>;
 }
 
 export default App;
