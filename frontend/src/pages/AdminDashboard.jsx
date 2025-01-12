@@ -13,16 +13,18 @@ const AdminDashboard = () => {
   useEffect(() => {
     const fetchPetitionsAndThreshold = async () => {
       try {
-        // Fetch petitions from the server
+        // Fetch petitions
         const petitionsResponse = await axios.get('http://localhost:9000/slpp/petitions');
         setPetitions(petitionsResponse.data);
 
-        // Fetch the current threshold from the server
+        // Fetch the current threshold
         const thresholdResponse = await axios.get('http://localhost:9000/slpp/threshold');
         setThreshold(thresholdResponse.data.threshold);
 
-        // Initially display all petitions
-        setFilteredPetitions(petitionsResponse.data);
+        // Initially display active petitions
+        const activePetitions = petitionsResponse.data.filter(petition => petition.status === 'open');
+        setFilteredPetitions(activePetitions);
+
 
       } catch (err) {
         console.error('Error fetching data:', err);
@@ -33,7 +35,7 @@ const AdminDashboard = () => {
   }, []);
 
   const filterPetitionsByThreshold = () => {
-    // Filter petitions that have signatures >= threshold and are Open
+    // Filter petitions that have signatures >= threshold and are open
     const petitionsAboveThreshold = petitions.filter(petition =>
       petition.signitures >= threshold && petition.status === 'open'
     );
@@ -54,16 +56,11 @@ const AdminDashboard = () => {
 
   const updateThreshold = async () => {
     try {
-      // Send the new threshold value to the backend
       await axios.post('http://localhost:9000/slpp/threshold', { value: threshold });
 
-      // After updating the threshold, filter the petitions
       filterPetitionsByThreshold();
-      
-      // Display success message
+
       setMessage('Threshold updated successfully!');
-      
-      // Hide message after 2 seconds
       setTimeout(() => setMessage(''), 2000);
 
     } catch (err) {
@@ -140,7 +137,7 @@ const AdminDashboard = () => {
           <h2>Petitions</h2>
           <div className='listingContainer'>
             {
-            <button onClick={() => setFilteredPetitions(petitions)}>View All Petitions</button>
+           
              }
             <button onClick={filterActivePetitions}>View Open Petitions</button>
             <button onClick={filterPetitionsByThreshold}>View Petitions Reached Threshold</button>

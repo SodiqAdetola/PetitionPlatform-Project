@@ -3,8 +3,8 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import QRScanner from 'react-qr-scanner';
 import '../styles/Register.css'
-
 
 function Register() {
   const [fullName, setFullName] = useState('');
@@ -15,6 +15,7 @@ function Register() {
   const navigate = useNavigate();
   
   const [error, setError] = useState('');
+  const [isScannerOpen, setIsScannerOpen] = useState(false);
 
   const registerHandler = async (e) => {
     e.preventDefault();
@@ -33,7 +34,7 @@ function Register() {
       setError('Password must be at least 6 characters long.');
       return;
     }
-    
+
     try {
       const lowerCaseEmail = email.toLowerCase();
 
@@ -45,12 +46,11 @@ function Register() {
         password
       });
 
-   
       if (backendResponse.data.message === 'Registration successful') {
         const firebaseResponse = await createUserWithEmailAndPassword(auth, lowerCaseEmail, password);
         console.log(firebaseResponse, 'Firebase Registration Successful');
         
-        localStorage.setItem('email', lowerCaseEmail)
+        localStorage.setItem('email', lowerCaseEmail);
         navigate('/'); 
       }
 
@@ -59,10 +59,21 @@ function Register() {
       if (err.response && err.response.data && err.response.data.message) {
         setError(err.response.data.message);
       } 
-       else {
+      else {
         setError('An unexpected error occurred. Please try again.');
       }
     }
+  };
+
+  const handleScan = (data) => {
+    if (data) {
+      setBioID(data.text);  // Set BioID with scanned data text
+      setIsScannerOpen(false); 
+    }
+  };
+
+  const handleError = (err) => {
+    console.error(err);
   };
 
   return (
@@ -80,7 +91,14 @@ function Register() {
         </label>
 
         <label className='bioID' htmlFor="bioID">
-          Biometric ID: <input type="text" value={bioID} onChange={(e) => setBioID(e.target.value)} />
+          Biometric ID:
+          <input 
+            type="text" 
+            value={bioID} 
+            onChange={(e) => setBioID(e.target.value)} 
+            placeholder="Scan QR or enter manually" 
+          />
+          <button type="button" className='scanButton' onClick={() => setIsScannerOpen(true)}>Scan QR</button>
         </label>
 
         <label className='email' htmlFor="Email">
@@ -93,9 +111,22 @@ function Register() {
 
         {error && <p className="errorMessage">{error}</p>} 
 
-        <button type="submit">Register</button>
+        <button type="submit" className='submitButton'>Register</button>
         <p>Already have an account? <a href="/Login">Login here.</a></p>
       </form>
+
+      {/* Show the QR scanner when it's open */}
+      {isScannerOpen && (
+        <div className="scannerContainer">
+          <QRScanner
+            className='scanner'
+            delay={300} 
+            onScan={handleScan} 
+            onError={handleError} 
+          />
+          <button className='scanButton' onClick={() => setIsScannerOpen(false)}>Close Scanner</button>
+        </div>
+      )}
     </div>
   );
 }
