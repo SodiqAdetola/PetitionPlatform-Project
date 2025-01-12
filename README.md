@@ -34,4 +34,7 @@ npm run dev
 
 5. Open Application:
 Make sure default Vite port of 5173 is available:
-http://localhost:5173
+
+frontend server: http://localhost:5173/
+
+backend server: http://localhost:9000/
