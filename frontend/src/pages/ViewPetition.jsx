@@ -4,11 +4,13 @@ import Petition from '../components/Petition';
 import '../styles/ViewPetition.css';
 
 function ViewPetition() {
+  const [threshold, setThreshold] = useState([]);
   const [petitions, setPetitions] = useState([]); // Stores all petitions
   const [userSignedPetitions, setUserSignedPetitions] = useState([]); // Stores signed petition IDs
   const [filter, setFilter] = useState('open'); // Stores the current filter state ('open' or 'closed')
 
   // Fetch petitions and user-signed petitions on component load
+
   useEffect(() => {
     const fetchPetitions = async () => {
       try {
@@ -34,8 +36,18 @@ function ViewPetition() {
       }
     };
 
+    const fetchThreshold = async () => {
+      try {
+        const response = await axios.get('http://localhost:9000/slpp/threshold');
+        setThreshold(response.data.threshold);
+      } catch (error) {
+        console.error('Error fetching threshold:', error);
+      }
+    };
+
     fetchPetitions();
     fetchUserSignedPetitions();
+    fetchThreshold();
   }, []);
 
   // Function to dynamically update signed petitions
@@ -72,7 +84,9 @@ function ViewPetition() {
   return (
     <div className='viewContainer viewPetitionsBackground'>
       <h1>View Petitions</h1>
-      
+   
+      <p className='threshold'>Signiture Threshold: {threshold}</p>
+
       
       <div className="filterButtons">
         <button onClick={() => setFilter('open')} className={filter === 'open' ? 'active' : ''}>

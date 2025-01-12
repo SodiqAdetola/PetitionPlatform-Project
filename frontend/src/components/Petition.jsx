@@ -4,16 +4,19 @@ import { FaUserCircle } from "react-icons/fa";
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 
-function Petition({ petition, thresholdValue, isSigned, onSign, hideSignButton = false, onRespond }) {
+function Petition({ petition, isSigned, onSign, hideSignButton = false, onRespond }) {
   const location = useLocation();
   const isAdminDashboard = location.pathname === '/admin';
+
+  const [thresholdValue, setThresholdValue] = useState(null);
   const [isResponseVisible, setIsResponseVisible] = useState(false);
   const [responseText, setResponseText] = useState(petition.response || '');
-  const [isClosed, setIsClosed] = useState(petition.status === 'Closed');
+  const [isClosed, setIsClosed] = useState(petition.status === 'closed');
 
   useEffect(() => {
     setIsClosed(petition.status === 'closed');
   }, [petition.status]);
+
 
   const toggleResponseForm = () => {
     setIsResponseVisible(!isResponseVisible);

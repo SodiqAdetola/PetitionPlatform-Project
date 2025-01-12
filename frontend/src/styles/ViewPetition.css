@@ -14,6 +14,10 @@
     font-size: 0.85rem;
   }
 
+  .viewContainer .threshold {
+    text-align: center;
+  }
+
 
 
   .filterButtons button{

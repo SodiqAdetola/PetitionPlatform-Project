@@ -9,5 +9,4 @@ router.get('/threshold', getThreshold);
 router.post('/threshold', setThreshold);
 router.post('/response', createResponse);
 
-
 module.exports = router;

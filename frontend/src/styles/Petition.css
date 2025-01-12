@@ -43,10 +43,7 @@
 
   }
 
-  .signiture {
-    display: flex;
-    gap: 5px;
-  }
+
 
 
   .petitionItem:hover {
@@ -76,10 +73,14 @@
 }
 
   
-  
+  .signiture {
+    display: flex;
+    gap: 5px;
+  }
   .petitionItem .signitureCount {
     font-weight: 600;
   }
+
   
   .signButton {
     background-color: #28a745;

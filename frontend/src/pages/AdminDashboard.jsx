@@ -113,7 +113,7 @@ const AdminDashboard = () => {
   const petitionsAboveThreshold = openPetitions.filter(petition => petition.signitures >= threshold);
   
   const chartData = {
-    labels: ['Reached Threshold', 'Below Threshold'],
+    labels: ['Open Petitions Reached Threshold', 'Open Petitions Below Threshold'],
     datasets: [
       {
         data: [petitionsAboveThreshold.length, openPetitions.length - petitionsAboveThreshold.length],
@@ -180,7 +180,6 @@ const AdminDashboard = () => {
             <div key={petition._id} className="petitionCard">
               <Petition 
                 petition={petition}
-                thresholdValue={threshold}
                 onRespond={handleRespond}
               />
             </div>
