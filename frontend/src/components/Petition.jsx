@@ -16,13 +16,12 @@ function Petition({ petition, thresholdValue, isSigned, onSign, hideSignButton =
   }, [petition.status]);
 
   const toggleResponseForm = () => {
-    // Toggle the response form visibility
     setIsResponseVisible(!isResponseVisible);
     if (petition.response && !isResponseVisible) {
-      // If there's an existing response, pre-fill the form
+      // for existing response, pre-fill form with it
       setResponseText(petition.response);
     } else {
-      // If there's no response or it's canceled, reset the form
+      // If no response or canceled, reset form
       setResponseText('');
     }
   };
@@ -30,7 +29,7 @@ function Petition({ petition, thresholdValue, isSigned, onSign, hideSignButton =
   const handleResponseSubmit = () => {
     if (responseText.trim() !== '') {
       onRespond(petition._id, responseText);
-      setIsResponseVisible(false); // Close the form after submission
+      setIsResponseVisible(false); // Close form after submission
     }
   };
 

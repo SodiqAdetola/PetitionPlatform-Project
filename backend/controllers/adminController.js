@@ -7,8 +7,7 @@ exports.getThreshold = async (req, res) => {
     let threshold = await Threshold.findOne();
 
     if (!threshold) {
-      // If no threshold exists, create a default one
-      threshold = new Threshold({ value: 10 }); // You can adjust the default value here
+      threshold = new Threshold({ value: 10 });
       await threshold.save();
       console.log('Default threshold created.');
     }

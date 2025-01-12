@@ -24,7 +24,7 @@ function NavBar() {
     setIsExpanded((prev) => !prev);
   };
 
-  // Automatically adjust navbar state based on screen size
+  // adjust navbar state based on screen size
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth > 768) {
@@ -46,7 +46,7 @@ function NavBar() {
 
   return (
     <div>
-      {/* Hamburger icon for small screens */}
+      {/* icon display for small screens */}
       {window.innerWidth <= 768 && (
         <button className="navbarToggle" onClick={toggleNavbar}>
           <IoMenu />

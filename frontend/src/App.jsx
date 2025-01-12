@@ -128,27 +128,4 @@ function App() {
   );
 }
 
-function DynamicBackground({ user, children }) {
-  const location = useLocation(); // Now inside the Router context
-
-  const getBackgroundClass = () => {
-    switch (location.pathname) {
-      case '/login':
-        return 'loginBackground';
-      case '/register':
-        return 'registerBackground';
-      case '/':
-        return 'homeBackground'; // Apply home background here
-      case '/viewPetitions':
-        return 'viewPetitionsBackground';
-      case '/createPetition':
-        return 'createPetitionBackground';
-      default:
-        return '';
-    }
-  };
-
-  return <div className={getBackgroundClass()}>{children}</div>;
-}
-
 export default App;

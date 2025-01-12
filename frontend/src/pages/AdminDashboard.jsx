@@ -13,7 +13,7 @@ const AdminDashboard = () => {
   const [petitions, setPetitions] = useState([]);
   const [threshold, setThreshold] = useState(0);
   const [filteredPetitions, setFilteredPetitions] = useState([]);
-  const [message, setMessage] = useState('');  // State for success/error message
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
     const fetchPetitionsAndThreshold = async () => {
@@ -72,7 +72,6 @@ const AdminDashboard = () => {
       console.error('Error updating threshold:', err);
       setMessage('Failed to update threshold');
       
-      // Hide error message after 2 seconds
       setTimeout(() => setMessage(''), 2000);
     }
   };

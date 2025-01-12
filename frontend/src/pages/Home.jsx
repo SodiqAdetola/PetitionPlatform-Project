@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Petition from '../components/Petition'; // Reusing the Petition component
+import Petition from '../components/Petition';
 import '../styles/Home.css'
 import { FaUserCircle } from "react-icons/fa";
 
@@ -12,7 +12,7 @@ function UserProfile() {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const email = localStorage.getItem('email'); // Retrieve user's email
+        const email = localStorage.getItem('email'); // get current user email
         const response = await axios.get(`http://localhost:9000/slpp/petitioner?email=${email}`);
         setProfile(response.data);
       } catch (err) {

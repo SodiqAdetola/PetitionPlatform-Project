@@ -64,12 +64,12 @@ exports.getAllPetitioners = async (req, res) => {
 
   exports.getPetitionerByEmail = async (req, res) => {
     const { email } = req.query;
-    console.log('Fetching petitioner with email:', email); // Log email query
+    console.log('Fetching petitioner with email:', email); 
   
     try {
       const petitioner = await Petitioner.findOne({ email }).populate('signedPetitions');
       if (!petitioner) {
-        console.log('No petitioner found for email:', email); // Log when no petitioner is found
+        console.log('No petitioner found for email:', email);
         return res.status(404).json({ message: 'Petitioner not found' });
       }
   

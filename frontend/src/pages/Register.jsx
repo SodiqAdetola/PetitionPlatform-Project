@@ -115,7 +115,6 @@ function Register() {
         <p>Already have an account? <a href="/Login">Login here.</a></p>
       </form>
 
-      {/* Show the QR scanner when it's open */}
       {isScannerOpen && (
         <div className="scannerContainer">
           <QRScanner

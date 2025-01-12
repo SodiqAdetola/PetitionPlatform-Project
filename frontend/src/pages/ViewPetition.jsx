@@ -74,7 +74,6 @@ function ViewPetition() {
       <h1>View Petitions</h1>
       
       
-      {/* Buttons for filtering petitions */}
       <div className="filterButtons">
         <button onClick={() => setFilter('open')} className={filter === 'open' ? 'active' : ''}>
           Open Petitions

@@ -32,8 +32,7 @@ function CreatePetition() {
       setTitle('');
       setText('');
 
-      // Redirect to petitions page or dashboard
- 
+      // Redirect to view page after creation success
       navigate('/viewPetitions');
      
 
