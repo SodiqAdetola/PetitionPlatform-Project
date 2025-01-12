@@ -14,11 +14,11 @@ const AdminDashboard = () => {
     const fetchPetitionsAndThreshold = async () => {
       try {
         // Fetch petitions from the server
-        const petitionsResponse = await axios.get('http://localhost:9000/petitions');
+        const petitionsResponse = await axios.get('http://localhost:9000/slpp/petitions');
         setPetitions(petitionsResponse.data);
 
         // Fetch the current threshold from the server
-        const thresholdResponse = await axios.get('http://localhost:9000/threshold');
+        const thresholdResponse = await axios.get('http://localhost:9000/slpp/threshold');
         setThreshold(thresholdResponse.data.threshold);
 
         // Initially display all petitions
@@ -35,27 +35,27 @@ const AdminDashboard = () => {
   const filterPetitionsByThreshold = () => {
     // Filter petitions that have signatures >= threshold and are Open
     const petitionsAboveThreshold = petitions.filter(petition =>
-      petition.signitures >= threshold && petition.status === 'Open'
+      petition.signitures >= threshold && petition.status === 'open'
     );
     setFilteredPetitions(petitionsAboveThreshold);
   };
 
   const filterClosedPetitions = () => {
     // Filter petitions that are closed
-    const closedPetitions = petitions.filter(petition => petition.status === 'Closed');
+    const closedPetitions = petitions.filter(petition => petition.status === 'closed');
     setFilteredPetitions(closedPetitions);
   };
 
   const filterActivePetitions = () => {
     // Filter petitions that are open
-    const activePetitions = petitions.filter(petition => petition.status === 'Open');
+    const activePetitions = petitions.filter(petition => petition.status === 'open');
     setFilteredPetitions(activePetitions);
   };
 
   const updateThreshold = async () => {
     try {
       // Send the new threshold value to the backend
-      await axios.post('http://localhost:9000/threshold', { value: threshold });
+      await axios.post('http://localhost:9000/slpp/threshold', { value: threshold });
 
       // After updating the threshold, filter the petitions
       filterPetitionsByThreshold();
@@ -77,7 +77,7 @@ const AdminDashboard = () => {
 
   const handleRespond = async (petitionId, responseText) => {
     try {
-      const response = await axios.post(`http://localhost:9000/response`, {
+      const response = await axios.post(`http://localhost:9000/slpp/response`, {
         id: petitionId,
         response: responseText,
       });
@@ -85,13 +85,13 @@ const AdminDashboard = () => {
       // Update petitions to reflect the closed status and response
       setPetitions((prev) =>
         prev.map((p) =>
-          p._id === petitionId ? { ...p, response: responseText, status: 'Closed' } : p
+          p._id === petitionId ? { ...p, response: responseText, status: 'closed' } : p
         )
       );
 
       setFilteredPetitions((prev) =>
         prev.map((p) =>
-          p._id === petitionId ? { ...p, response: responseText, status: 'Closed' } : p
+          p._id === petitionId ? { ...p, response: responseText, status: 'closed' } : p
         )
       );
       

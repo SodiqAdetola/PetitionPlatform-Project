@@ -26,7 +26,7 @@ function App() {
           const email = user.email || localStorage.getItem('email'); 
 
           if (email) {
-            const adminResponse = await axios.get(`http://localhost:9000/petitioner?email=${email}`);
+            const adminResponse = await axios.get(`http://localhost:9000/slpp/petitioner?email=${email}`);
             const role = adminResponse.data.role;
             setUserRole(role);
             setUser({ idToken, email });

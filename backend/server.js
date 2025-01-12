@@ -63,9 +63,9 @@ mongoose.connect(process.env.MONGO_URI)
 // Start server
 const PORT = process.env.PORT || 9000;
 
-app.use('/', petitionerRoute);
-app.use('/', petitionRoute);
-app.use('/', adminRoute);
+app.use('/slpp/', petitionerRoute);
+app.use('/slpp/', petitionRoute);
+app.use('/slpp/', adminRoute);
 
 
 

@@ -12,7 +12,7 @@ function Petition({ petition, thresholdValue, isSigned, onSign, hideSignButton =
   const [isClosed, setIsClosed] = useState(petition.status === 'Closed');
 
   useEffect(() => {
-    setIsClosed(petition.status === 'Closed');
+    setIsClosed(petition.status === 'closed');
   }, [petition.status]);
 
   const toggleResponseForm = () => {

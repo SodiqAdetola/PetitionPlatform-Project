@@ -5,6 +5,11 @@
   font-size: 0.85rem;
 }
 
+.homeContainer .userIcon {
+  color: rgb(73, 52, 115);
+
+}
+
 .pageContainer {
   margin-bottom: 30px;
 }

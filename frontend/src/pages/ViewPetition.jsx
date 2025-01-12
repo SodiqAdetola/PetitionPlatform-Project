@@ -12,7 +12,7 @@ function ViewPetition() {
   useEffect(() => {
     const fetchPetitions = async () => {
       try {
-        const petitionResponse = await axios.get('http://localhost:9000/petitions');
+        const petitionResponse = await axios.get('http://localhost:9000/slpp/petitions');
         setPetitions(petitionResponse.data);
       } catch (err) {
         console.error('Error fetching petitions:', err);
@@ -26,7 +26,7 @@ function ViewPetition() {
           return; // Skip if no email is found in localStorage
         }
 
-        const userResponse = await axios.get(`http://localhost:9000/petitioner?email=${email}`);
+        const userResponse = await axios.get(`http://localhost:9000/slpp/petitioner?email=${email}`);
         const signedPetitions = userResponse.data.signedPetitions.map((p) => p._id); // Extract petition IDs
         setUserSignedPetitions(signedPetitions);
       } catch (err) {
@@ -47,7 +47,7 @@ function ViewPetition() {
         return;
       }
 
-      await axios.post(`http://localhost:9000/petition/${petitionId}`, { email });
+      await axios.post(`http://localhost:9000/slpp/petition/${petitionId}`, { email });
 
       // Update signed petitions and increment signatures dynamically
       setUserSignedPetitions((prevSigned) => [...prevSigned, petitionId]);

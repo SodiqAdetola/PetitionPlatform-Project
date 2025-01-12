@@ -23,7 +23,7 @@ function Login() {
       console.log(lowerCaseEmail)
       localStorage.setItem('email', lowerCaseEmail)
 
-      const adminResponse = await axios.get(`http://localhost:9000/petitioner?email=${lowerCaseEmail}`);
+      const adminResponse = await axios.get(`http://localhost:9000/slpp/petitioner?email=${lowerCaseEmail}`);
       if (adminResponse.data.role === 'admin') {
         navigate('/admin')
       } else {

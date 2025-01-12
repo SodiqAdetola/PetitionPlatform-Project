@@ -21,7 +21,7 @@ function CreatePetition() {
         return;
       }
 
-      const response = await axios.post('http://localhost:9000/petition', {
+      const response = await axios.post('http://localhost:9000/slpp/petition', {
         petitionTitle: title,
         petitionText: text,
         petitioner: email,

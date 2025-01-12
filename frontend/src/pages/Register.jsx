@@ -37,7 +37,7 @@ function Register() {
     try {
       const lowerCaseEmail = email.toLowerCase();
 
-      const backendResponse = await axios.post('http://localhost:9000/petitioner', {
+      const backendResponse = await axios.post('http://localhost:9000/slpp/petitioner', {
         fullName,
         DoB,
         bioID,

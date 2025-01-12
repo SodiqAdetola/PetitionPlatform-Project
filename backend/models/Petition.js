@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const PetitionSchema = new mongoose.Schema({
-  status: { type: String, required: true, default: "Open"},
+  status: { type: String, required: true, default: "open"},
   petitionTitle: { type: String, required: true, unique: true },
   petitionText: { type: String, required: true, unique: true },
   petitioner: { type: String, required: true },

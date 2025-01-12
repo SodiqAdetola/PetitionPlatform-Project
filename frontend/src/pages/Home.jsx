@@ -13,7 +13,7 @@ function UserProfile() {
     const fetchProfile = async () => {
       try {
         const email = localStorage.getItem('email'); // Retrieve user's email
-        const response = await axios.get(`http://localhost:9000/petitioner?email=${email}`);
+        const response = await axios.get(`http://localhost:9000/slpp/petitioner?email=${email}`);
         setProfile(response.data);
       } catch (err) {
         console.error('Error fetching profile:', err);

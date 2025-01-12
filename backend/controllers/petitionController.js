@@ -21,15 +21,20 @@ exports.createPetition = async (req, res) => {
 };
 
 
-exports.getAllPetitions = async (req, res) => {
+exports.getPetitions = async (req, res) => {
+
+  const { status } = req.query;
+
     try {
-      const petitions = await Petition.find({});
+      const query = status ? { status : status } : {};
+      const petitions = await Petition.find(query);
       res.status(200).json(petitions);
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: 'Could not fetch petitions' });
     }
   };
+
 
 exports.signPetition = async (req, res) => {
     const { email } = req.body;
