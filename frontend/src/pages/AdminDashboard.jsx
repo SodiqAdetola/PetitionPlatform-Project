@@ -4,6 +4,11 @@ import Petition from '../components/Petition';
 import '../styles/AdminDashboard.css'
 import { RiAdminFill } from "react-icons/ri";
 
+import { Pie } from 'react-chartjs-2';
+import { Chart, ArcElement, Tooltip, Legend, CategoryScale } from 'chart.js'; 
+Chart.register(ArcElement, Tooltip, Legend, CategoryScale); 
+
+
 const AdminDashboard = () => {
   const [petitions, setPetitions] = useState([]);
   const [threshold, setThreshold] = useState(0);
@@ -91,21 +96,47 @@ const AdminDashboard = () => {
           p._id === petitionId ? { ...p, response: responseText, status: 'closed' } : p
         )
       );
-      
-      // Display success message
+
       setMessage('Response submitted successfully!');
-      
-      // Hide message after 2 seconds
       setTimeout(() => setMessage(''), 500);
       
     } catch (error) {
       console.error('Error submitting response:', error);
       setMessage('Failed to submit response');
-      
-      // Hide error message after 2 seconds
       setTimeout(() => setMessage(''), 500);
     }
   };
+
+
+
+//Pie chart
+  const openPetitions = petitions.filter(petition => petition.status === 'open');
+  const petitionsAboveThreshold = openPetitions.filter(petition => petition.signitures >= threshold);
+  
+  const chartData = {
+    labels: ['Reached Threshold', 'Below Threshold'],
+    datasets: [
+      {
+        data: [petitionsAboveThreshold.length, openPetitions.length - petitionsAboveThreshold.length],
+        backgroundColor: ['#2ecc71', '#e74c3c'],
+        hoverBackgroundColor: ['#27ae60', '#c0392b'],
+      },
+    ],
+  };
+  const chartOptions = {
+    responsive: false,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      tooltip: {
+        enabled: false,
+      },
+    },
+  };
+
+
+
 
   return (
     <div className="adminDashboard">
@@ -135,10 +166,10 @@ const AdminDashboard = () => {
       <div className="petitionsSection">
         <div className='bottomContainer'>
           <h2>Petitions</h2>
+          <div className="chartContainer">
+            <Pie data={chartData} options={chartOptions} />
+          </div>
           <div className='listingContainer'>
-            {
-           
-             }
             <button onClick={filterActivePetitions}>View Open Petitions</button>
             <button onClick={filterPetitionsByThreshold}>View Petitions Reached Threshold</button>
             <button onClick={filterClosedPetitions}>View Closed Petitions</button>
