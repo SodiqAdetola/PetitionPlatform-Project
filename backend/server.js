@@ -26,7 +26,7 @@ app.use(express.json());
 
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI)
+mongoose.connect(process.env.MONGO_URI || 'mongodb+srv://SLPP:SLPP@cluster0.vmxnt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
 .then(async () => {
 
   console.log('Connected to MongoDB');
